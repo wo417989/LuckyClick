@@ -1,0 +1,33 @@
+切换页面并 加载相应内容的几种方法
+1，线程，将listview的id 发送 ，并接受根据id分别初始化相应 view
+2，利用FlipperView的动画进入，进出事件来初始化（根据id）
+
+总体设计上
+1，一个activity 和多个view
+2，多个activity
+   （1），activity之间的动画切换 overridePendingTransition （参考资料）
+   （2），方便值传递。。。
+       可以根据传过来的值(listview的id)初始化不同的界面
+  
+ RelativeLayout里的元素要加
+    android:layout_width="fill_parent" android:layout_height="fill_parent"  不然报错
+    
+    动态添加布局、view等 
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.gameview, null);
+		
+		RelativeLayout rl = (RelativeLayout)view.findViewById(R.id.mainGame);
+//		rl.setLayoutParams(new RelativeLayout.LayoutParams(-1, -1));
+		
+		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(-1, -1);//当前layout的宽高
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
+		layoutParams.addRule(RelativeLayout.BELOW, atEditText.getId());
+ 
+ 一个布局中添加另一个布局 (最好是静态的时候用 )<include>  
+ 		<LinearLayout  android:layout_width="wrap_content" android:layout_height="wrap_content"	android:layout_marginLeft="70.0dip">
+			<include android:id="@+id/weibo_detail_bottom_bar" layout="@layout/weibodetail_bottombar_3"/>
+		</LinearLayout>
+		
+一个布局包含一个动态的布局
+		<FrameLayout android:layout_gravity="bottom" android:id="@+id/operation_layout" android:background="@android:color/transparent" android:paddingBottom="50.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+		

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background_game" >
+    <!-- title -->
+    <RelativeLayout android:id="@+id/gameTitle" android:layout_alignParentTop="true"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+	     <ImageView android:id="@+id/titleImg" android:layout_width="wrap_content" 
+	         android:layout_height="wrap_content"/>
+	</RelativeLayout>
+	
+	<!-- advertising -->
+	<!-- <RelativeLayout android:id="@+id/advertising" android:layout_below="@id/gameTitle" 
+        android:layout_width="wrap_content" android:layout_height="wrap_content">
+	     
+    
+	</RelativeLayout> -->
+	
+	<!-- mainGame -->
+	<!-- <RelativeLayout android:id="@+id/mainGame"  android:layout_below="@id/gameTitle" 
+        android:layout_width="fill_parent" android:layout_height="wrap_content"></RelativeLayout>-->
+	     <FrameLayout  android:id="@+id/operation_layout" android:background="@android:color/transparent"
+	         android:visibility="visible" android:layout_width="wrap_content" 
+	         android:layout_height="wrap_content" android:layout_below="@id/gameTitle"/>
+	    
+	    <!-- <include android:id="@+id/gameStartView" layout="@layout/gamerunlayout"/>-->
+      	 
+	
+	
+	<!-- toolsBar(包括start) -->
+	<RelativeLayout android:id="@+id/toolsBar" android:layout_alignParentBottom="true" 
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
+	     <Button android:id="@+id/startImg" android:layout_width="200.0dip" 
+	         android:layout_height="50.0dip" android:background="@null"
+	         android:layout_centerHorizontal="true" android:drawableTop="@drawable/btn_start_selector"
+	         />
+	     
+	     <Button android:id="@+id/soundImg" android:layout_width="wrap_content" 
+	         android:layout_height="wrap_content" android:layout_below="@id/startImg"
+	         android:layout_alignParentLeft="true" android:background="@drawable/btn_sound_on"/>
+	      
+	     <Button android:id="@+id/settingsImg" android:layout_width="wrap_content" 
+	         android:layout_height="wrap_content" android:layout_below="@id/startImg"
+	         android:layout_centerInParent="true" android:background="@null"
+	         android:drawableTop="@drawable/btn_settings_selector"/>
+	     
+	     <Button android:id="@+id/onBackImg" android:layout_width="71.0dip" 
+	         android:layout_height="47.0dip" android:layout_below="@id/startImg"
+	         android:layout_alignParentRight="true" android:background="@null"
+	         android:drawableTop="@drawable/btn_onback_selector"/>
+    
+	</RelativeLayout>
+</RelativeLayout>
