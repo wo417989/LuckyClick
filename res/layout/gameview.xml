@@ -26,27 +26,27 @@
 	    
 	    <!-- <include android:id="@+id/gameStartView" layout="@layout/gamerunlayout"/>-->
       	 
-	
+	<Button android:id="@+id/startImg" android:layout_width="200.0dip" 
+	         android:layout_height="50.0dip" android:background="@null"
+	         android:layout_centerInParent="true" android:drawableTop="@drawable/btn_start_selector"
+	         />
 	
 	<!-- toolsBar(包括start) -->
 	<RelativeLayout android:id="@+id/toolsBar" android:layout_alignParentBottom="true" 
         android:layout_width="fill_parent" android:layout_height="wrap_content">
-	     <Button android:id="@+id/startImg" android:layout_width="200.0dip" 
-	         android:layout_height="50.0dip" android:background="@null"
-	         android:layout_centerHorizontal="true" android:drawableTop="@drawable/btn_start_selector"
-	         />
+	     
 	     
 	     <Button android:id="@+id/soundImg" android:layout_width="wrap_content" 
-	         android:layout_height="wrap_content" android:layout_below="@id/startImg"
+	         android:layout_height="wrap_content" 
 	         android:layout_alignParentLeft="true" android:background="@drawable/btn_sound_on"/>
 	      
 	     <Button android:id="@+id/settingsImg" android:layout_width="wrap_content" 
-	         android:layout_height="wrap_content" android:layout_below="@id/startImg"
+	         android:layout_height="wrap_content" 
 	         android:layout_centerInParent="true" android:background="@null"
 	         android:drawableTop="@drawable/btn_settings_selector"/>
 	     
 	     <Button android:id="@+id/onBackImg" android:layout_width="71.0dip" 
-	         android:layout_height="47.0dip" android:layout_below="@id/startImg"
+	         android:layout_height="47.0dip" 
 	         android:layout_alignParentRight="true" android:background="@null"
 	         android:drawableTop="@drawable/btn_onback_selector"/>
     

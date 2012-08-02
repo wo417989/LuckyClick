@@ -1,5 +1,7 @@
 package com.sy.activity;
 
+import net.youmi.android.AdManager;
+import net.youmi.android.AdView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 public class LuckyGameActivity extends Activity {
 
@@ -28,6 +31,7 @@ public class LuckyGameActivity extends Activity {
 	View gameRunLayout;
 	FrameLayout operation_layout;
 	ImageView titleImg;
+	RelativeLayout titleLayout;//标题layout
 	RelativeLayout toolsLayout;
 	boolean isOpenSound = true;//是否打开声音
 	public int gameState = 0;//游戏的状态 0,还没开始   1,正在游戏  2,游戏结束 
@@ -43,7 +47,7 @@ public class LuckyGameActivity extends Activity {
 		@Override
 		public void run() {
 			this.update();
-			myHandler.postDelayed(this, 2000);
+			myHandler.postDelayed(this, 2000);//这里设成可设置
 		}
 		void update(){
 			if (gameState == 1){
@@ -59,6 +63,10 @@ public class LuckyGameActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
         		WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
+		AdManager.init(this,"537ef88653a2993c", "b9e10bcfe994a9fb", 30, false);
+		
+		
 		initImg();//初始化
 //		TextView testText = (TextView)this.findViewById(R.id.testText);
 		Intent intent = getIntent();
@@ -85,8 +93,14 @@ public class LuckyGameActivity extends Activity {
 //		RelativeLayout rl1 = (RelativeLayout)view.findViewById(R.id.gameTitle);
 //		initTitleView(viewId);//1
 		//初始化title
+		titleLayout = (RelativeLayout)view.findViewById(R.id.gameTitle);
 		titleImg = (ImageView)view.findViewById(R.id.titleImg);
 		titleImg.setImageResource(listImg[viewId]);
+		
+		AdView adView = new AdView(this); 
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);		
+		params.addRule(RelativeLayout.BELOW, titleImg.getId());
+		titleLayout.addView(adView, params);
 		
 		//初始化中间的view
 //		gameStartView = (View)view.findViewById(R.id.gameStartView);
@@ -119,6 +133,7 @@ public class LuckyGameActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (LuckyGameActivity.this.gameState == 0){
+					startBtn.setVisibility(View.GONE);
 					startGame();
 					myHandler.postDelayed(runnable, 1000);//启动定时器
 				}

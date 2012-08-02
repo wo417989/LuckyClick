@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.domob.android.ads.DomobAdListener;
+import cn.domob.android.ads.DomobAdView;
+
+import net.youmi.android.AdManager;
+import net.youmi.android.AdView;
+
 //import net.youmi.android.AdManager;
 //import net.youmi.android.AdView;
 import android.app.Activity;
@@ -13,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,7 +30,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.ViewFlipper;
 
@@ -37,10 +46,15 @@ public class LuckyClickActivity extends Activity {
 	
 	ImageButton startButton;
 	boolean isOpenSound = false;//是否打开声音
-	static {
-		//				应用Id				应用密码			      广告请求间隔(s)   测试模式      
-//		AdManager.init("537ef88653a2993c", "b9e10bcfe994a9fb", 30, 			true);
-	}
+//	static {
+//		//				应用Id				应用密码			      广告请求间隔(s)   测试模式      
+//		AdManager.init("537ef88653a2993c", "b9e10bcfe994a9fb", 30, 			false);
+//	}
+	
+	ListView listView;
+	LinearLayout ll_adView;//AD layout
+	public static final String PUBLISHER_ID = "56OJyM1ouMGoaSnvCK";
+	DomobAdView mAdview320x50;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,14 +64,24 @@ public class LuckyClickActivity extends Activity {
         		WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         setContentView(R.layout.main);
-        
-        ListView listView = (ListView)this.findViewById(R.id.listView);
+     // 应用Id 应用密码 广告请求间隔(s) 测试模式
+		AdManager.init(this,"537ef88653a2993c", "b9e10bcfe994a9fb", 30, false);
+		
+		ll_adView = (LinearLayout)this.findViewById(R.id.ad_view_1);
+		listView = (ListView)this.findViewById(R.id.listView);
         initImg();
         SimpleAdapter adapter = new SimpleAdapter(this, getData(), R.layout.listlayout, 
         		new String[]{"img"}, new int[]{R.id.img});
 //        setListAdapter(sa);
         listView.setAdapter(adapter); 
         
+		
+        AdView adView = new AdView(this); 
+		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);		
+		ll_adView.addView(adView, params); 
+		
+//		initDomobView();
+		
         listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -71,7 +95,6 @@ public class LuckyClickActivity extends Activity {
 				//方法二
 				Intent intent = new Intent(LuckyClickActivity.this, LuckyGameActivity.class);
 				Bundle bundle = new Bundle();
-//				bundle.putInt("viewId", position);
 				bundle.putInt("viewId", position);
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -87,6 +110,41 @@ public class LuckyClickActivity extends Activity {
 			}
 		});
         
+    }
+    
+    private void initDomobView(){
+		//创建一个320x50的广告View
+		mAdview320x50 = new DomobAdView(this, PUBLISHER_ID, DomobAdView.INLINE_SIZE_300X250);
+		mAdview320x50.setKeyword("game");
+		mAdview320x50.setUserGender("male");
+		mAdview320x50.setUserBirthdayStr("2000-08-08");
+		mAdview320x50.setUserPostcode("123456");
+		
+		//设置广告view的监听器。
+		mAdview320x50.setOnAdListener(new DomobAdListener() {
+			@Override
+			public void onReceivedFreshAd(DomobAdView adview) {
+				Log.i("DomobSDKDemo", "onReceivedFreshAd");
+			}
+			@Override
+			public void onFailedToReceiveFreshAd(DomobAdView adview) {
+				Log.i("DomobSDKDemo", "onFailedToReceiveFreshAd");
+			}
+			@Override
+			public void onLandingPageOpening() {
+				Log.i("DomobSDKDemo", "onLandingPageOpening");
+			}
+			@Override
+			public void onLandingPageClose() {
+				Log.i("DomobSDKDemo", "onLandingPageClose");
+			}
+		});
+		//将广告View增加到视图中。
+		RelativeLayout rl = new RelativeLayout(this);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+		rl.addView(mAdview320x50, lp);
+		listView.addFooterView(rl);
+//		ll_adView.addView(mAdview320x50);
     }
     
 //    @Override
